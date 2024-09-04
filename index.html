@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor de Números a Letras</title>
+    <script>
+        function numeroALetras(num) {
+            const unidades = ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
+            const decenas = ['', '', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+            const especiales = ['diez', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
+            const centenas = ['', 'cien', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
+
+            if (num < 10) return unidades[num];
+            if (num >= 10 && num < 20) return especiales[num - 10];
+            if (num >= 20 && num < 100) {
+                const unidad = num % 10;
+                return `${decenas[Math.floor(num / 10)]}${unidad ? ' y ' + unidades[unidad] : ''}`;
+            }
+            if (num >= 100 && num < 1000) {
+                const decena = num % 100;
+                return `${centenas[Math.floor(num / 100)]}${decena ? ' ' + numeroALetras(decena) : ''}`;
+            }
+            return 'Número fuera de rango';
+        }
+
+        function traducirNumero() {
+            const numero = document.getElementById("numero").value;
+            const resultado = numeroALetras(parseInt(numero));
+            document.getElementById("resultado").textContent = resultado;
+        }
+    </script>
+</head>
+<body>
+    <h1>Traductor de Números a Letras</h1>
+    <label for="numero">Introduce un número (0-999):</label>
+    <input type="number" id="numero" min="0" max="999">
+    <button onclick="traducirNumero()">Traducir</button>
+    <p id="resultado"></p>
+</body>
+</html>
