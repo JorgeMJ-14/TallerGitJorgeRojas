@@ -24,10 +24,36 @@
             }
             return 'Número fuera de rango';
         }
+
+        function numberToWords(num) {
+            const units = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+            const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+            const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+            const hundreds = ['', 'one hundred', 'two hundred', 'three hundred', 'four hundred', 'five hundred', 'six hundred', 'seven hundred', 'eight hundred', 'nine hundred'];
+
+            if (num < 10) return units[num];
+            if (num >= 10 && num < 20) return teens[num - 10];
+            if (num >= 20 && num < 100) {
+                const unit = num % 10;
+                return `${tens[Math.floor(num / 10)]}${unit ? '-' + units[unit] : ''}`;
+            }
+            if (num >= 100 && num < 1000) {
+                const ten = num % 100;
+                return `${hundreds[Math.floor(num / 100)]}${ten ? ' ' + numberToWords(ten) : ''}`;
+            }
+            return 'Number out of range';
+        }
+
         function traducirNumero() {
             const numero = document.getElementById("numero").value;
-            const resultado = numeroALetras(parseInt(numero));
-            document.getElementById("resultado").textContent = resultado;
+            const resultadoEnEspanol = numeroALetras(parseInt(numero));
+            document.getElementById("resultado").textContent = resultadoEnEspanol;
+        }
+
+        function traducirAIngles() {
+            const numero = document.getElementById("numero").value;
+            const resultadoEnIngles = numberToWords(parseInt(numero));
+            document.getElementById("resultadoIngles").textContent = resultadoEnIngles;
         }
     </script>
 </head>
@@ -39,8 +65,10 @@
                 <div class="card p-4 shadow-sm">
                     <label for="numero" class="form-label">Introduce un número (0-999):</label>
                     <input type="number" id="numero" min="0" max="999" class="form-control mb-3">
-                    <button onclick="traducirNumero()" class="btn btn-primary w-100">Traducir</button>
+                    <button onclick="traducirNumero()" class="btn btn-primary w-100">Traducir a Español</button>
                     <p id="resultado" class="mt-3 text-center"></p>
+                    <button onclick="traducirAIngles()" class="btn btn-secondary w-100 mt-2">Traducir a Inglés</button>
+                    <p id="resultadoIngles" class="mt-3 text-center"></p>
                 </div>
             </div>
         </div>
